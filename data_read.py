@@ -2,23 +2,18 @@ import glob
 import pickle
 import os
 
-import scipy.io.wavfile
-import openl3
+from utils_for_read import*
 
 def to_embedding(file_name):
-	# print(file_name)
-	Fs, x = scipy.io.wavfile.read(file_name)
-	x = x.astype("float")
-	emb, ts = openl3.get_audio_embedding(x, Fs, content_type="env",
-                               input_repr="mel128", embedding_size=512)
-	
-	return emb[:,None,None,:]
+
+	emb = audio_tagging(model_type="ResNet38", checkpoint_path="ResNet38_mAP=0.434.pth", audio_path=file_name)
+	return emb
 
 
 
 
 
-data_dir = "/home/liya/research/sound_data/"
+data_dir = "/home/liya/research/dcase_2022_data/"
 dir_out = "out"
 
 os.mkdir(dir_out)
@@ -32,6 +27,11 @@ for i, filename in enumerate(list_files):
 	arr_dict["data"] = to_embedding(filename)
 
 	file_name_split = filename.split("/")
+
+	wav_name = file_name_split[-1]
+
+
+	# arr_dict["filename"] = wav_name
 
 	if 'anomaly' in file_name_split[-1] :
 		arr_dict["labels"] = 1
