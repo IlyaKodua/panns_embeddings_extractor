@@ -13,7 +13,7 @@ def to_embedding(file_name):
 
 
 
-data_dir = "/home/liya/research/dcase_2022_data/"
+data_dir = "data/"
 dir_out = "out"
 
 os.mkdir(dir_out)
