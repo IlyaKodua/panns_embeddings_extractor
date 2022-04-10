@@ -33,21 +33,14 @@ for i, filename in enumerate(list_files):
 		print(persent, " %")
 		print(time.time() - timer, " s")
 		timer = time.time()
-	arr_dict = dict()
+
 		
-	arr_dict["data"] = to_embedding(filename)
+	data = to_embedding(filename)
 
 	file_name_split = filename.split("/")
 
 	wav_name = file_name_split[-1]
 
-
-	# arr_dict["filename"] = wav_name
-
-	if 'anomaly' in file_name_split[-1] :
-		arr_dict["labels"] = 1
-	else:
-		arr_dict["labels"] = 0
 	name = file_name_split[-1].split(".")[0]
-	with open(dir_out + "/" + file_name_split[-3] + "_" + file_name_split[-2] + "_" + name +".pkl", 'wb') as f:
-		pickle.dump(arr_dict, f)
+	with open(dir_out + "/" + name +".pkl", 'wb') as f:
+		pickle.dump(data, f)
