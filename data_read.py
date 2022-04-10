@@ -1,8 +1,9 @@
 import glob
 import pickle
 import os
-
+import time
 from utils_for_read import*
+
 
 def to_embedding(file_name):
 
@@ -13,15 +14,25 @@ def to_embedding(file_name):
 
 
 
-data_dir = "data/"
+data_dir = "/home/liya/research/dcase_2022_data/"
 dir_out = "out"
 
 os.mkdir(dir_out)
 
 list_files = glob.glob(data_dir + '**/*.wav', recursive=True)
 
+persent = 0
+timer = time.time()
+print("Start!!!")
 for i, filename in enumerate(list_files):
-	print(int((i+1)/len(list_files)*100), " %")
+
+	cycl_perent = int((i+1)/len(list_files)*100)
+
+	if(cycl_perent != persent):
+		persent = cycl_perent
+		print(persent, " %")
+		print(time.time() - timer, " s")
+		timer = time.time()
 	arr_dict = dict()
 		
 	arr_dict["data"] = to_embedding(filename)
